@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LocalStorage Backup & Restore</title>
+</head>
+<body>
+  <h2>🔄 LocalStorage Backup & Restore</h2>
+
+  <!-- Export Section -->
+  <button onclick="exportData()">Export Data</button>
+  <textarea id="exportBox" rows="6" cols="50" readonly placeholder="Exported JSON will appear here"></textarea>
+  <br><br>
+
+  <!-- Import Section -->
+  <textarea id="importBox" rows="6" cols="50" placeholder="Paste JSON here to import"></textarea><br>
+  <button onclick="importData()">Import Data</button>
+
+  <script>
+    // Export localStorage as JSON
+    function exportData() {
+      let data = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        data[key] = localStorage.getItem(key);
+      }
+      document.getElementById("exportBox").value = JSON.stringify(data, null, 2);
+    }
+
+    // Import JSON back into localStorage
+    function importData() {
+      try {
+        let data = JSON.parse(document.getElementById("importBox").value);
+        for (let key in data) {
+          localStorage.setItem(key, data[key]);
+        }
+        alert("✅ Data imported successfully!");
+      } catch (e) {
+        alert("❌ Invalid JSON format!");
+      }
+    }
+  </script>
+</body>
+</html>
